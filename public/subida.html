@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Subir archivo - HeartForge</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      color: #333;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+     h2 {
+      color: #1a73e8;
+      margin-bottom: 1rem;
+    }
+
+    form {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    input, select, button {
+      padding: 0.6rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #1a73e8;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #155ab6;
+    }
+
+    .back-btn {
+      margin-top: 2rem;
+      text-decoration: none;
+      color: #1a73e8;
+      font-weight: bold;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100px;
+      background: #e0e0e0;
+      border-radius: 10px;
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #d4edda;
+      color: #155724;
+      padding: 1.5rem 2rem;
+      border: 2px solid #c3e6cb;
+      border-radius: 10px;
+      z-index: 1000;
+    }
+
+      /* Estilos básicos para el popup de éxito */
+#popupExito {
+  display: none;        /* Oculto por defecto */
+  position: fixed;
+  top: 50%;             /* Centrado verticalmente */
+  left: 50%;            /* Centrado horizontalmente */
+  transform: translate(-50%, -50%);
+  background-color: #4CAF50;  /* Verde para éxito */
+  color: white;
+  padding: 20px 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  font-size: 18px;
+  z-index: 9999;
+  opacity: 0;           /* Inicia invisible */
+  transition: opacity 0.5s ease-in-out;
+}
+
+#popupExito.visible {
+  display: block;
+  opacity: 1;
+}
+
+  </style>
+</head>
+<body>
+
+  <h2>Sube el audio cardiaco</h2>
+
+<form id="form-audio" enctype="multipart/form-data">
+<input type="text" id="nombre_paciente" name="nombre_paciente" placeholder="Nombre del paciente" required>
+    <select  id="sexo" name="sexo" required>
+      <option value="">Sexo</option>
+      <option value="Hombre">Hombre</option>
+      <option value="Mujer">Mujer</option>
+      <option value="Otro">Otro</option>
+    </select>
+    <input type="number" name ="edad" placeholder="Edad" min="0" required />
+    <input type="number" name="estatura" placeholder="Estatura (cm)" min="0" required />
+    <input type="number" name="peso" placeholder="Peso (kg)" min="0" required />
+
+    <label for="audio">Archivo de audio:</label>
+    <input type="file" id="audio" name="audio" accept="audio/*" required />
+
+    <label for="categoria">Tipo de sonido cardiaco:</label>
+    <select id="categoria" name="categoria" required>
+      <option value="">Selecciona una opción</option>
+      <option value="Normal">Sonido normal</option>
+      <option value="Clic">Clic</option>
+      <option value="Soplo temprano">Soplo temprano</option>
+      <option value="Soplo medio">Soplo medio</option>
+      <option value="Soplo tardío">Soplo tardío</option>
+      <option value="Soplo holosistólico">Soplo holosistólico</option>
+    </select>
+
+    <audio id="audioPreview" controls style="display:none;"></audio>
+    <canvas id="audioCanvas"></canvas>
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  <a href="index.html" class="back-btn">← Volver al inicio</a>
+
+  <div class="popup" id="popupExito">✅ Archivo enviado con éxito</div>
+
+  <script>
+    const audioInput = document.getElementById("audio");
+    const audioPreview = document.getElementById("audioPreview");
+    const canvas = document.getElementById("audioCanvas");
+    const ctx = canvas.getContext("2d");
+
+    audioInput.addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        audioPreview.src = url;
+        audioPreview.style.display = "block";
+        drawWaveform(file);
+      }
+    });
+
+    function drawWaveform(file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const audioContext = new AudioContext();
+        audioContext.decodeAudioData(e.target.result, function (buffer) {
+          const rawData = buffer.getChannelData(0);
+          const step = Math.ceil(rawData.length / canvas.width);
+          const amp = canvas.height / 2;
+
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.beginPath();
+          ctx.moveTo(0, amp);
+
+          for (let i = 0; i < canvas.width; i++) {
+            const min = Math.min(...rawData.slice(i * step, (i + 1) * step));
+            const max = Math.max(...rawData.slice(i * step, (i + 1) * step));
+            ctx.lineTo(i, amp + max * amp);
+            ctx.lineTo(i, amp + min * amp);
+          }
+
+          ctx.strokeStyle = "#1a73e8";
+          ctx.stroke();
+        });
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+   //document.getElementById("form-audio").addEventListener("submit", function (e) {
+  //  e.preventDefault();
+      // Aquí puedes agregar la lógica para enviar los datos al backend
+
+  //  const popup = document.getElementById("popupExito");
+  //  popup.style.display = "block";
+  //  setTimeout(() => popup.style.display = "none", 3000);
+  //  this.reset();
+  //  audioPreview.style.display = "none";
+  //  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //});
+  </script>
+  <script src="upload.js"></script>
+</body>
+</html>
