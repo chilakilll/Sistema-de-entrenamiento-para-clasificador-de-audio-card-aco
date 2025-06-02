@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>HeartForge</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <header>
+      <h2 class="HeartForge">HeartForge</h2>
+      <nav class="navigation">
+        <a href="#inicio">Inicio</a>
+        <a href="#sobre-nosotros">Sobre nosotros</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#contacto">Contacto</a>
+        <button class="btnAcceder-popup">Acceder</button>
+      </nav>      
+    </header>
+
+    <div class="wrapper">
+      <span class="icon-close">
+        <ion-icon name="close"></ion-icon>
+      </span>
+
+      <div class="form-box acceder">
+        <h2>Iniciar sesión</h2>
+        <form id="login-form" method="POST" action="http://localhost:3000/login">
+          <div class="input-box">
+            <span class="icon">
+              <ion-icon name="mail"></ion-icon>
+            </span>
+            <input type="email" name="email" placeholder="Correo electrónico" required>
+            <label>Correo</label>
+          </div>
+          <div class="input-box">
+            <span class="icon">
+                <ion-icon name="lock-closed"></ion-icon></span>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <label>Contraseña</label>
+          </div>
+          <div class="remember-forgot">
+            <label><input type="checkbox"id="remember-me"> Recordarme </label>
+            <a href="#">¿Olvidaste tu contraseña?</a>
+          </div>
+          <button type="submit" class="btn">Acceder</button>
+          <div class="acceder-register">
+            <p>¿Aún no tienes cuenta?<a href="#" class="register-link">Regístrate</a></p>
+          </div>
+        </form>
+      </div>
+      
+    
+      <div class="form-box register">
+        <h2>Crea una cuenta</h2>
+        <form id="signup-form" method="POST" action="http://localhost:3000/register">
+          <div class="input-box">
+            <span class="icon">
+              <ion-icon name="person"></ion-icon>
+            </span>
+            <input type="text" name="nombre" required>
+            <label>Nombre de usuario</label>
+          </div>
+          <div class="input-box">
+            <span class="icon">
+              <ion-icon name="mail"></ion-icon>
+            </span>
+            <input type="email" name="email" required>
+            <label>Correo</label>
+          </div>
+          <div class="input-box">
+            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+            <input type="password" name="password" required>
+            <label>Contraseña</label>
+          </div>
+          <div class="remember-forgot">
+            <label><input type="checkbox" name="aceptarTerminos" required> Acepto términos y condiciones </label>
+          </div>
+          <button type="submit" class="btn">Registrarse</button>
+          <div class="acceder-register">
+            <p>¿Ya tienes cuenta?<a href="#" class="acceder-link">Acceder</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <main>
+      <section id="inicio">
+        <h2 class="inicio-title">Inicio</h2>
+        <p>
+          Bienvenido a <strong>HeartForge</strong>, una plataforma desarrollada para facilitar el diagnóstico oportuno de enfermedades cardiacas mediante un sistema de entrenamiento automático de clasificadores de audio cardiaco. Este sistema está diseñado para médicos que necesitan actualizar sus herramientas diagnósticas sin depender de conocimientos técnicos.
+        </p>
+        <p>
+          Nuestro objetivo es brindar soporte a comunidades con acceso limitado a atención médica especializada, reduciendo la brecha tecnológica entre zonas rurales y urbanas.
+        </p>
+      </section>
+    
+      <section id="sobre-nosotros">
+        <h2 class="sobre-nosotros-title">Un equipo con visión y corazón</h2>
+      
+        <p>
+          En HeartForge, somos un equipo interdisciplinario enfocado en la innovación tecnológica aplicada a la salud. Basados en el Instituto Tecnológico de México, Campus Tijuana, creemos que el acceso a diagnósticos precisos no debe depender del lugar donde uno se encuentre.
+        </p>
+        <p>
+          Nuestro compromiso es la mejora continua de la calidad del diagnóstico cardiaco en beneficio de todos.
+        </p>
+      </section>
+    
+      <section id="servicios" class="hidden">
+        <h2 class="servicios-title">¿Cómo funciona el sistema?</h2>
+      
+        <div class="servicios-container">
+          <div class="servicio">
+            <h3>📤 Carga de audio</h3>
+            <p>El médico sube una señal de audio cardiaco desde la interfaz.</p>
+          </div>
+          <div class="servicio">
+            <h3>⚙️ Entrenamiento automático</h3>
+            <p>La plataforma procesa el archivo y reentrena el clasificador sin intervención técnica.</p>
+          </div>
+          <div class="servicio">
+            <h3>🤖 Actualización del sistema</h3>
+            <p>El nuevo modelo se actualiza automáticamente en la nube.</p>
+          </div>
+          <div class="servicio">
+            <h3>📊 Resultados disponibles</h3>
+            <p>El sistema estará listo para clasificar sonidos como Normal, Clic o distintos tipos de soplo.</p>
+          </div>
+        </div>
+      
+        <!-- Aquí va el botón, centrado debajo de las 4 cajas -->
+        <div class="boton-subida">
+          <a href="subida.html" class="btn-subir">Ir a subir archivo</a>
+        </div>
+      </section>
+    
+      <section id="contacto">
+        <h2>Contacto</h2>
+        <p>¿Tienes dudas, sugerencias o deseas colaborar con nosotros?</p>
+        <p>Escríbenos a <strong>contacto@heartforge.com</strong> o llena nuestro formulario en línea.</p>
+        <p>También puedes seguirnos en nuestras redes sociales para conocer las últimas actualizaciones del sistema.</p>
+      </section>
+    </main>
+
+
+    <script src="script.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>
